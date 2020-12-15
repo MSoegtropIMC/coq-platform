@@ -1,0 +1,62 @@
+name: GitHub CI
+
+on:
+  - pull_request
+  - push
+
+env:
+  PLATFORM_ARGS: -extent=f -parallel=p -jobs=2 -vst=y -compcert=f
+  OPAM_VERSION: 2.0.6
+
+jobs:
+  Windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Set git to use LF
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+
+      - uses: actions/checkout@v2
+
+      - name: Run common platform script
+        shell: cmd
+        env:
+          COQREGTESTING: y
+        run: coq_platform_make_windows.bat -destcyg=C:\cygwin64_coq_platform -arch=64 %PLATFORM_ARGS%
+
+  Ubuntu:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install opam
+        run: |
+          sudo apt-get install bubblewrap build-essential
+          curl -L https://github.com/ocaml/opam/releases/download/${OPAM_VERSION}/opam-${OPAM_VERSION}-x86_64-linux > opam.${OPAM_VERSION}
+          chmod a+x opam.${OPAM_VERSION}
+          sudo cp opam.${OPAM_VERSION} /usr/local/bin/opam.${OPAM_VERSION}
+          sudo ln -s /usr/local/bin/opam.${OPAM_VERSION} /usr/local/bin/opam
+
+      - name: Run common platform script
+        shell: bash
+        run: ./coq_platform_make.sh $PLATFORM_ARGS
+
+  Macos:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install opam
+        run: |
+          curl -L https://github.com/ocaml/opam/releases/download/${OPAM_VERSION}/opam-${OPAM_VERSION}-x86_64-macos > opam.${OPAM_VERSION}
+          chmod a+x opam.${OPAM_VERSION}
+          sudo cp opam.${OPAM_VERSION} /usr/local/bin/opam.${OPAM_VERSION}
+          sudo ln -s /usr/local/bin/opam.${OPAM_VERSION} /usr/local/bin/opam
+
+      - name: Run common platform script
+        shell: bash
+        run: ./coq_platform_make.sh $PLATFORM_ARGS
