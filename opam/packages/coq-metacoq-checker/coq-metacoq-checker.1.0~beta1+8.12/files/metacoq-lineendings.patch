@@ -1,0 +1,12 @@
+diff --git a/template-coq/update_plugin.sh b/template-coq/update_plugin.sh
+index 2821b1fa..9d1db033 100755
+--- a/template-coq/update_plugin.sh
++++ b/template-coq/update_plugin.sh
+@@ -14,6 +14,7 @@ then
+     (cd gen-src; ./to-lower.sh)
+     rm -f gen-src/*.d
+     # Fix an extraction bug: wrong type annotation on eq_equivalence
++    sed -i.bak 's/\r//g' gen-src/cRelationClasses.mli
+     patch -N -p0 < extraction.patch
+     exit 0
+ else
