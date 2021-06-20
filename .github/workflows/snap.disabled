@@ -32,7 +32,7 @@ on:
       platform:
         description: 'Arguments for the platform script:'
         required: true
-        default: '-extent=f -parallel=p -jobs=2 -vst=y -compcert=f'
+        default: '-packages=dev -extent=f -parallel=p -jobs=2 -vst=y -compcert=f'
 
 ###############################################################################
 # Platform script options shared among all jobs
@@ -41,7 +41,7 @@ on:
 ###############################################################################
 env:
   COQREGTESTING: y
-  PLATFORM: -extent=i -parallel=p -jobs=2
+  PLATFORM: -packages=dev -extent=i -parallel=p -jobs=2
   SAVE_ARTIFACT: true
 
 jobs:
@@ -82,8 +82,10 @@ jobs:
           opam repo add coq-released https://coq.inria.fr/opam/released
           opam repo add coq-dev https://coq.inria.fr/opam/core-dev
           opam repo add coq-extra https://coq.inria.fr/opam/extra-dev
-          opam repo add coq-platform file://$PWD/opam
-          opam repo set-repos coq-platform coq-released coq-dev coq-extra default
+          opam repo add coq-platform-coq file://$PWD/opam/opam-coq-archive/released
+          opam repo add coq-platform-coq-dev file://$PWD/opam/opam-coq-archive/extra-dev
+          opam repo add coq-platform-ocaml file://$PWD/opam/opam-repository
+          opam repo set-repos coq-platform-coq coq-platform-coq-dev coq-platform-ocaml coq-released coq-dev coq-extra default
           opam update
 
       - name: Generate snapcraft file

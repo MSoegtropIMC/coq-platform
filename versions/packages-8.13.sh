@@ -8,12 +8,28 @@
 # Creative Commons CC0 1.0 Universal License
 # See https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt
 
+###################### CONTROL VARIABLES #####################
+
+# The two lines below are used by the package selection script
+# DESCRIPTION Coq 8.13.2 04/2021 with package pick 02/2021
+# SORTORDER 1
+
+# The package list name is the final part of the opam switch name.
+# It is usually either empty ot starts with ~.
+# It might also be used for installer package names, but with ~ replaced by _
+# It is also used for version specific file selections in the smoke test kit.
+COQ_PLATFORM_PACKAGELIST_NAME=''
+
+# This controls if opam repositories for development packages are selected
+COQ_PLATFORM_USE_DEV_REPOSITORY='N'
+
 ###################### PACKAGE SELECTION #####################
 
-# HINT: Comment packages you do not want
-
-# ATTENTION: The packages are given in an oeder so that dependencies are built
-#            first - important fo sequential builds!
+# - Comment out packages you do not want.
+# - Packages with system dependencies should be given first.
+#   This avoids multiple sudo password requests
+# - Packages which take a long time to build should be given last.
+#   There is some evidence that they are built early then.
 
 PACKAGES="coq.8.13.2"
 
@@ -35,9 +51,6 @@ PACKAGES="${PACKAGES} coq-aac-tactics.8.13.0"
 PACKAGES="${PACKAGES} coq-mtac2.1.4+8.13"
 PACKAGES="${PACKAGES} coq-simple-io.1.5.0"
 PACKAGES="${PACKAGES} coq-quickchick.1.5.0"
-
-# Homotopy Type Theory (HoTT)
-PACKAGES="${PACKAGES} coq-hott.8.13"
 
 # Analysis and numerics
 PACKAGES="${PACKAGES} coq-flocq.3.3.1"
@@ -61,6 +74,9 @@ PACKAGES="${PACKAGES} coq-mathcomp-bigenough.1.0.0"
 PACKAGES="${PACKAGES} coq-mathcomp-finmap.1.5.1"
 PACKAGES="${PACKAGES} coq-mathcomp-real-closed.1.1.2"
 
+# Homotopy Type Theory (HoTT)
+PACKAGES="${PACKAGES} coq-hott.8.13"
+
 # Menhir, CompCert and Princeton VST - these take longer to compile !
 PACKAGES="${PACKAGES} coq-menhirlib.20200624 menhir.20200624"
 # Todo: there is no mutex between coq platform and coq platform open source
@@ -78,7 +94,3 @@ case "$COQ_PLATFORM_VST" in
 esac
 
 fi
-
-# Note: there is some experimental evidence that the in a parallel build
-# package given last is tried to build first (after its dependencies).
-# Since VST takes longest, give it last.

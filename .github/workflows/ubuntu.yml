@@ -44,6 +44,13 @@ jobs:
   Ubuntu_platform:
     name: Ubuntu
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        variant:
+          - '8.13'
+          - '8.12'
+          - 'dev'
 
     steps:
       - name: Git checkout
@@ -60,7 +67,7 @@ jobs:
 
       - name: Run common platform script
         shell: bash
-        run: ./coq_platform_make.sh $PLATFORM_ARGS
+        run: ./coq_platform_make.sh  -packages=${{matrix.variant}} $PLATFORM_ARGS -dumplogs
 
       - name: Create smoke test kit
         shell: bash

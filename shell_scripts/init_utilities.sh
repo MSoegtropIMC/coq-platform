@@ -199,3 +199,23 @@ function check_value_range {
     return 1
   fi
 }
+
+# ------------------------------------------------------------------------------
+# Check if a file given in a variable exists
+#
+# $1: value to check
+# $2: item name for error message
+# ------------------------------------------------------------------------------
+
+function check_value_file_exists {
+  if [ "$1" == "__unset__" ]
+  then
+    return 0
+  fi
+  if [ ! -f "$1" ]
+  then
+    echo "ERROR: File $1 for option $2 does not exists."
+    return 1
+  fi
+
+}

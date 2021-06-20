@@ -5,7 +5,7 @@ cd "$(dirname "$0")/.."
 source shell_scripts/init_safety_debug.sh
 source shell_scripts/init_paths.sh
 source shell_scripts/init_utilities.sh
-source coq_platform_switch_name.sh
+source versions/coq_platform_switch_name.sh
 source shell_scripts/parse_cmdline_arguments.sh
 source shell_scripts/ask_introduction.sh
 source coq_platform_packages.sh

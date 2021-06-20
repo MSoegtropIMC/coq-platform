@@ -134,8 +134,9 @@ without -Q and -R options. If you want to work with the 64 bit variants, please 
 - On Linux or macOS open a shell in the usual way.
 - Run these commands:
     ```
-    opam switch _coq-platform_.2021.02.1
+    opam switch __coq-platform.2021.02.1.8.13
     eval $(opam env)
     ```
+    (note: the switch name might vary if you choose a different version of Coq - please use `opam switch` to see a list of switch names)
 - Install additional packages with `opam install "package"`
 - You can find packages with `opam list --all | grep "some keyword"`

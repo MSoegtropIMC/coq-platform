@@ -16,7 +16,7 @@ if [ -z "${COQ_PLATFORM_EXTENT:+x}" ]
 then
 cat <<EOH
 ====================== JUST COQ OR COMPLETE PLATFORM ? =======================
-This script installs the Coq platform version $COQ_PLATFORM_VERSION, that is:
+This script installs the Coq Platform version $COQ_PLATFORM_VERSION, that is:
 
 - the Coq compiler and Coq's standard library
 - CoqIDE, a GTK3 based graphical user interface
@@ -24,7 +24,7 @@ This script installs the Coq platform version $COQ_PLATFORM_VERSION, that is:
 
 The script uses opam, the OCaml package manager, to do all the work.
 In case opam is not yet installed, it will install opam.
-A new opam switch named $COQ_PLATFORM_SWITCH_NAME will be created.
+A new opam switch will be created unless a Coq Platform switch already exists.
 
 This script is tested on Windows 10, macOS Catalina and many Linux variants.
 

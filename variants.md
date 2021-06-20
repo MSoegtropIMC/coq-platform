@@ -8,7 +8,7 @@ The main points of modifications are:
   - add or remove packages according to your requirements
   - you should include specific versions to get a reproducible result - the opam database changes daily and unless you specify a
     version you get different results and quite possibly the build will fail
-  - **please always change the opam switch name** to some specific to your application by changing [`coq_platform_switch_name.sh`](/coq_platform_switch_name.sh) in case you modify the package list or other features
+  - **please always change the opam switch name** to some specific to your application by changing [`versions/coq_platform_switch_name.sh`](/versions/coq_platform_switch_name.sh) in case you modify the package list or other features
 
 - the main script [`coq_platform_make.sh`](/coq_platform_make.sh)
   - replace interactive questions with predefined settings

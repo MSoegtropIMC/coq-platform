@@ -18,8 +18,9 @@ parts:
     override-build: |
       if [ -d $SNAPCRAFT_PART_INSTALL/coq-platform/@@COQ_VERSION@@/ ]; then exit 0; fi
       # build
-      echo "COQ_PLATFORM_VERSION=@@COQ_VERSION@@" >> coq_platform_switch_name.sh
-      echo "COQ_PLATFORM_SWITCH_NAME=@@COQ_VERSION@@" >> coq_platform_switch_name.sh
+      echo "COQ_PLATFORM_VERSION=@@COQ_VERSION@@" >> versions/coq_platform_version.sh
+      echo "COQ_PLATFORM_SWITCH_NAME=@@COQ_VERSION@@" >> versions/coq_platform_switch_name.sh
+      echo "COQ_PLATFORM_REPO_NAME=@@COQ_VERSION@@" >> versions/coq_platform_switch_name.sh
       COQREGTESTING=y OPAMROOT=$SNAPCRAFT_PART_INSTALL/coq-platform/ ./coq_platform_make.sh @@PLATFORM_ARGS@@
       # cleanup
       OPAMROOT=$SNAPCRAFT_PART_INSTALL/coq-platform/ opam clean

@@ -19,8 +19,6 @@ source shell_scripts/init_cygwin_fixes.sh
 
 ###################### SETTINGS #####################
 
-source coq_platform_switch_name.sh
-
 export OPAMYES=yes
 export OPAMCOLOR=never
 
@@ -42,14 +40,21 @@ source shell_scripts/sanitize_environment.sh
 # NOTE: If you comment some questions for a custom setup, please assign
 #       the variable set in the script a default value.
 
+source versions/coq_platform_version.sh
 source shell_scripts/ask_introduction.sh
+source shell_scripts/ask_packagelist.sh
 source shell_scripts/ask_parallel_build.sh
 source shell_scripts/ask_compcert_open_source.sh
 source shell_scripts/ask_vst.sh
-source shell_scripts/ask_delete_opam_switch.sh
+
+###################### PACKAGE SELECTION #####################
+
+source ${COQ_PLATFORM_PACKAGELIST}
+source versions/coq_platform_switch_name.sh
 
 ###################### INSTALL/INIT OPAM #####################
 
+source shell_scripts/ask_delete_opam_switch.sh
 source shell_scripts/install_opam.sh
 source shell_scripts/check_opam_sandbox.sh
 source shell_scripts/install_opam_depext.sh
@@ -62,10 +67,10 @@ source shell_scripts/install_pkg-config.sh
 source shell_scripts/install_prerequisites_coqide.sh
 source shell_scripts/install_prerequisites_gappa.sh
 
-###################### PACKAGE SELECTION #####################
-
-source coq_platform_packages.sh
-
 ###################### BUILD ALL PACKAGES #####################
 
 source shell_scripts/build.sh
+
+###################### CLOSING #####################
+
+source shell_scripts/closing_remarks.sh

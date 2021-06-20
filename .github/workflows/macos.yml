@@ -43,6 +43,13 @@ jobs:
   Macos_platform:
     name: Macos
     runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        variant:
+          - '8.13'
+          - '8.12'
+          - 'dev'
 
     steps:
       - name: Git checkout
@@ -63,7 +70,7 @@ jobs:
 
       - name: Run common platform script
         shell: bash
-        run: ./coq_platform_make.sh $PLATFORM_ARGS
+        run: ./coq_platform_make.sh -packages=${{matrix.variant}} $PLATFORM_ARGS -dumplogs
 
       - name: Install bash (needed by smoke scripts)
         run: brew install bash
@@ -77,7 +84,7 @@ jobs:
       - name: 'Upload smoke test kit'
         uses: actions/upload-artifact@v2
         with:
-          name: 'Smoke Test Kit Macos'
+          name: 'Smoke Test Kit Macos ${{matrix.variant}}'
           path: smoke-test-kit/
           retention-days: 5
 
@@ -98,13 +105,13 @@ jobs:
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: 'DMG script error logs'
+          name: 'DMG script error logs ${{matrix.variant}}'
           path: macos_installer/logs/
 
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v2
         with:
-          name: 'Macos installer'
+          name: 'Macos installer ${{matrix.variant}}'
           path: macos_installer/coq-*-installer-macos.dmg
           retention-days: 5
 
@@ -112,6 +119,13 @@ jobs:
     name: Smoke test Macos
     needs: Macos_platform
     runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        variant:
+          - '8.13'
+          - '8.12'
+          - 'dev'
 
     steps:
       - name: Install bash
@@ -121,13 +135,13 @@ jobs:
         uses: actions/download-artifact@v2
         id: download
         with:
-          name: 'Macos installer'
+          name: 'Macos installer ${{matrix.variant}}'
 
       - name: 'Download smoke test kit'
         uses: actions/download-artifact@v2
         id: download-smoke
         with:
-          name: 'Smoke Test Kit Macos'
+          name: 'Smoke Test Kit Macos ${{matrix.variant}}'
 
       - name: 'Run Installer'
         shell: bash

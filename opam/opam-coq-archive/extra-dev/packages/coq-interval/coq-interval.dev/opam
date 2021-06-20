@@ -1,0 +1,41 @@
+opam-version: "2.0"
+maintainer: "guillaume.melquiond@inria.fr"
+homepage: "http://coq-interval.gforge.inria.fr/"
+dev-repo: "git+https://gitlab.inria.fr/coqinterval/interval.git"
+bug-reports: "https://gitlab.inria.fr/coqinterval/interval/issues"
+license: "CeCILL-C"
+build: [
+  ["autoconf"] {dev}
+  ["./configure"]
+  ["./remake" "-j%{jobs}%"]
+]
+install: ["./remake" "install"]
+depends: [
+  "coq" {>= "8.8"}
+  "coq-bignums"
+  "coq-flocq" {>= "3.1" | = "dev"}
+  "coq-mathcomp-ssreflect" {>= "1.6" | = "dev"}
+  "coq-coquelicot" {>= "3.0" | = "dev"}
+  "conf-autoconf" {build & dev}
+  ("conf-g++" {build} | "conf-clang" {build})
+]
+tags: [
+  "keyword:interval arithmetic"
+  "keyword:decision procedure"
+  "keyword:floating point arithmetic"
+  "keyword:reflexive tactic"
+  "keyword:taylor models"
+  "category:Mathematics/Real Calculus and Topology"
+  "category:Computer Science/Decision Procedures and Certified Algorithms/Decision procedures"
+  "logpath:Interval"
+]
+authors: [
+  "Guillaume Melquiond <guillaume.melquiond@inria.fr>"
+  "Érik Martin-Dorel <erik.martin-dorel@irit.fr>"
+  "Pierre Roux <pierre.roux@onera.fr>"
+  "Thomas Sibut-Pinote <thomas.sibut-pinote@inria.fr>"
+]
+synopsis: "A Coq tactic for proving bounds on real-valued expressions automatically"
+url {
+  src: "git+https://gitlab.inria.fr//coqinterval/interval.git/#master"
+}

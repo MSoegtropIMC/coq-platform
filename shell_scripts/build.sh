@@ -13,18 +13,32 @@
 # This is set by the windows batch file and conflicts with the use of variables e.g. in VST
 unset ARCH
 
+function dump_opam_logs {
+  if [ "${COQ_PLATFORM_DUMP_LOGS:-n}" == "y" ]
+  then
+    for log in $(opam config var root)/log/*
+    do
+      echo "==============================================================================="
+      echo $log
+      echo "==============================================================================="
+      cat -n $log
+    done
+  fi
+  return 1
+}
+
 opam config set jobs $COQ_PLATFORM_JOBS
 
 case "$COQ_PLATFORM_PARALLEL" in
   [pP]) 
     echo "===== INSTALL OPAM PACKAGES (PARALLEL) ====="
-    $COQ_PLATFORM_TIME opam install ${PACKAGES} || ( for log in $(opam config var root)/log/*; do echo $log; cat -n $log; done ; exit 1 )
+    if ! $COQ_PLATFORM_TIME opam install ${PACKAGES}; then dump_opam_logs; fi
     ;;
   [sS]) 
     echo "===== INSTALL OPAM PACKAGES (SEQUENTIAL) ====="
     for package in ${PACKAGES}
     do
-      $COQ_PLATFORM_TIME opam install ${package} || ( for log in $(opam config var root)/log/*; do echo $log; cat -n $log; done ; exit 1 )
+      if ! $COQ_PLATFORM_TIME opam install ${package}; then dump_opam_logs; fi
     done
     ;;
   *)

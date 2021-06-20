@@ -25,9 +25,9 @@ may be just 20 minutes, but on a slow machine with 4GB RAM it is more likely
 2 hours.
 
 In case you do not plan to formally verify C code with VST, you might want
-to select no (n) below. You can install VST any time later with:
+to select no (n) below. You can install VST at any time later with:
 
-  opam install coq-vst.2.6.
+  opam install coq-vst
 ======================= VERIFIED SOFTWARE TOOLCHAIN VST =======================
 EOH
     ask_user_opt2_cancel "Install VST (y) or do not install VST (n)?" yY "install VST" nN "do not install VST"

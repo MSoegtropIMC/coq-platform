@@ -70,9 +70,9 @@ one.
 - Open a shell, navigate to the download folder and execute `coq_platform_make.sh`.
 - The system will ask for sudo permissions to install prerequisites *several times* so the script is not fully unattended but all installations of dependencies are done directly after the initialization of the opam switch.
 - In case the script aborts e.g. cause of internet issues, just rerun the script.
-- The script creates a new opam switch named `_coq-platform_.2021.02.1` - this means the script does not touch your existing opam setup unless you already have a switch of this name.
+- The script creates a new opam switch named e.g. `__coq-platform.2021.02.1.8.13` - this means the script does not touch your existing opam setup unless you already have a switch of this name.
 - Use the following commands to activate this switch after opening a new shell:
-  - `opam switch _coq-platform_.2021.02.1`
+  - `opam switch __coq-platform.2021.02.1.8.13` (note: the switch name might vary if you choose a different version of Coq - please use `opam switch` to see a list of switch names)
   - `eval $(opam env)`
   - The second step can be automated by rerunning `opam init`
 - The main opam repositories for Coq and OCaml developments are already added to the created opam switch, so it should be easy to install additional Coq (or OCaml) packages.

@@ -51,6 +51,10 @@ jobs:
         architecture:
           - '32'
           - '64'
+        variant:
+          - '8.13'
+          - '8.12'
+          - 'dev'
 
     steps:
       - name: Set git to use LF
@@ -67,7 +71,7 @@ jobs:
 
       - name: Run common platform script
         shell: cmd
-        run: coq_platform_make_windows.bat -destcyg=C:\cygwin_coq_platform -arch=${{matrix.architecture}} %PLATFORM_ARGS%
+        run: coq_platform_make_windows.bat -destcyg=C:\cygwin_coq_platform -arch=${{matrix.architecture}} -packages=${{matrix.variant}} %PLATFORM_ARGS% -dumplogs
 
       - name: Create installer
         shell: cmd
@@ -80,14 +84,14 @@ jobs:
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v2
         with:
-          name: 'Windows installer ${{matrix.architecture}} bits'
+          name: 'Windows installer ${{matrix.variant}} ${{matrix.architecture}}'
           path: C:\installer\*.exe
           retention-days: 5
 
       - name: 'Upload smoke test kit'
         uses: actions/upload-artifact@v2
         with:
-          name: 'Smoke Test Kit Windows ${{matrix.architecture}} bits'
+          name: 'Smoke Test Kit Windows ${{matrix.variant}} ${{matrix.architecture}}'
           path: C:\smoke\
           retention-days: 5
 
@@ -101,19 +105,23 @@ jobs:
         architecture:
           - '32'
           - '64'
+        variant:
+          - '8.13'
+          - '8.12'
+          - 'dev'
 
     steps:
       - name: 'Download Artifact'
         uses: actions/download-artifact@v2
         id: download
         with:
-          name: 'Windows installer ${{matrix.architecture}} bits'
+          name: 'Windows installer ${{matrix.variant}} ${{matrix.architecture}}'
 
       - name: 'Download smoke test kit'
         uses: actions/download-artifact@v2
         id: download-smoke
         with:
-          name: 'Smoke Test Kit Windows ${{matrix.architecture}} bits'
+          name: 'Smoke Test Kit Windows ${{matrix.variant}} ${{matrix.architecture}}'
 
       - name: 'Run Installer'
         shell: cmd

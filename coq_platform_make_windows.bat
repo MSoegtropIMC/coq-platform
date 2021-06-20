@@ -170,6 +170,13 @@ IF "%~0" == "-extent" (
   GOTO Parse
 )
 
+IF "%~0" == "-packages" (
+  SET COQ_PLATFORM_PACKAGELIST=%~1
+  SHIFT
+  SHIFT
+  GOTO Parse
+)
+
 IF "%~0" == "-parallel" (
   SET COQ_PLATFORM_PARALLEL=%~1
   SHIFT
@@ -201,6 +208,12 @@ IF "%~0" == "-vst" (
 IF "%~0" == "-switch" (
   SET COQ_PLATFORM_SWITCH=%~1
   SHIFT
+  SHIFT
+  GOTO Parse
+)
+
+IF "%~0" == "-dumplogs" (
+  SET COQ_PLATFORM_DUMP_LOGS=y
   SHIFT
   GOTO Parse
 )
@@ -486,11 +499,13 @@ ECHO ========== BATCH FUNCTIONS ==========
   ECHO -cygquiet = %CYGWIN_QUIET%
   ECHO -cygforce = %CYGWIN_FORCE%
   ECHO -extent   = %COQ_PLATFORM_EXTENT%
+  ECHO -packages = %COQ_PLATFORM_PACKAGES%
   ECHO -parallel = %COQ_PLATFORM_PARALLEL%
   ECHO -jobs     = %COQ_PLATFORM_JOBS%
   ECHO -compcert = %COQ_PLATFORM_COMPCERT%
   ECHO -vst      = %COQ_PLATFORM_VST%
   ECHO -switch   = %COQ_PLATFORM_SWITCH%
+  ECHO -dumplogs = %COQ_PLATFORM_DUMP_LOGS%
   GOTO :EOF
 
 :CheckYN

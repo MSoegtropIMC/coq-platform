@@ -45,6 +45,12 @@ command -v gfind &> /dev/null || ( echo "Please install gfind (eg. sudo port ins
 command -v grealpath &> /dev/null || ( echo "Please install gfind (eg. sudo port install coreutils)" ; exit 1)
 command -v macpack  &> /dev/null || ( echo "Please install macpack (eg. sudo port install py38-pip; port select --set pip3 pip38; pip3 install macpack)" ; exit 1)
 
+##### Get the version of the Coq Platform #####
+
+source shell_scripts/get_names_from_switch.sh
+
+echo "##### Coq platform version = ${COQ_PLATFORM_VERSION}${COQ_PLATFORM_PACKAGELIST_NAME} #####" 
+
 ###### Create working folder and cd #####
 
 rm -rf macos_installer/
@@ -58,11 +64,7 @@ mkdir logs
 coqpackagefull=$(opam list --installed-roots --short --columns=name,version coq | sed 's/ /./')
 opam source --dir=coq/ ${coqpackagefull}
 
-##### Get the version of Coq and the Platform #####
-
-source ../coq_platform_switch_name.sh
-
-echo "##### Coq platform version = ${COQ_PLATFORM_VERSION} #####" 
+##### Get the version of Coq #####
 
 COQ_VERSION=$(coqc --print-version | cut -d ' ' -f 1)
 
@@ -541,9 +543,21 @@ add_folder_recursively "${PKG_MANAGER_ROOT}" "share/gtksourceview-3.0"
 
 ##### MacOS DMG installer specific files #####
 
+# Find CoqIDE folder
+
+if [ -d coq/ide/coqide ]
+then 
+  coqidefolder=coq/ide/coqide
+elif [ -d coq/ide  ]
+then
+  coqidefolder=coq/ide
+else
+  echo "ERROR: cannot find CoqIDE folder"
+fi
+
 # Create Info.plist file
 
-sed -e "s/VERSION/${COQ_VERSION_MACOS}/g" coq/ide/coqide/MacOS/Info.plist.template > \
+sed -e "s/VERSION/${COQ_VERSION_MACOS}/g" ../macos/Info.plist.template > \
     ${APP_ABSDIR}/Contents/Info.plist
 
 # Rename coqide to coqide.exe
@@ -602,7 +616,7 @@ ln -sf ../Resources/bin/coqide ${APP_ABSDIR}/Contents/MacOS/coqide
 
 # Icons
 
-cp coq/ide/coqide/MacOS/*.icns ${RSRC_ABSDIR}
+cp ${coqidefolder}/MacOS/*.icns ${RSRC_ABSDIR}
 
 # Create a link to the 'Applications' folder, so that one can drag and drop the application there
 
